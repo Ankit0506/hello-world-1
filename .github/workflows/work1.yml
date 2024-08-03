@@ -1,0 +1,55 @@
+name: Conditional Deployment
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'ab'
+      - 'bc'
+      - 'CD'
+      - 'de'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js (Optional if using Node.js)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14' # specify your node version
+
+      - name: Determine changed environment
+        id: determine_env
+        run: |
+          if [[ -n $(git diff --name-only HEAD^ HEAD ab) ]]; then
+            echo "ENV=dev" >> $GITHUB_ENV
+          elif [[ -n $(git diff --name-only HEAD^ HEAD bc) ]]; then
+            echo "ENV=uat" >> $GITHUB_ENV
+          elif [[ -n $(git diff --name-only HEAD^ HEAD CD) ]]; then
+            echo "ENV=val" >> $GITHUB_ENV
+          elif [[ -n $(git diff --name-only HEAD^ HEAD de) ]]; then
+            echo "ENV=prod" >> $GITHUB_ENV
+          else
+            echo "No changes in recognized environment files." && exit 1
+          fi
+        shell: bash
+
+      - name: Deploy to Dev Environment
+        if: env.ENV == 'dev'
+        run: echo "Deploying to Dev" # replace with your deployment script/command
+
+      - name: Deploy to UAT Environment
+        if: env.ENV == 'uat'
+        run: echo "Deploying to UAT" # replace with your deployment script/command
+
+      - name: Deploy to VAL Environment
+        if: env.ENV == 'val'
+        run: echo "Deploying to VAL" # replace with your deployment script/command
+
+      - name: Deploy to Prod Environment
+        if: env.ENV == 'prod'
+        run: echo "Deploying to Prod" # replace with your deployment script/command
