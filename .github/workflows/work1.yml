@@ -17,15 +17,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js (Optional if using Node.js)
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14' # specify your node version
-
       - name: Determine changed environment
         id: determine_env
         run: |
-          if [[ -n $(git diff --name-only HEAD^ HEAD ab) ]]; then
+          if [[ ! -f ab ]]; then
+            echo "File 'ab' not found. Using 'ab' as default."
+            echo "ENV=ab" >> $GITHUB_ENV
+          elif [[ -n $(git diff --name-only HEAD^ HEAD ab) ]]; then
             echo "ENV=dev" >> $GITHUB_ENV
           elif [[ -n $(git diff --name-only HEAD^ HEAD bc) ]]; then
             echo "ENV=uat" >> $GITHUB_ENV
@@ -34,9 +32,13 @@ jobs:
           elif [[ -n $(git diff --name-only HEAD^ HEAD de) ]]; then
             echo "ENV=prod" >> $GITHUB_ENV
           else
-            echo "No changes in recognized environment files." && exit 1
+            echo "No changes detected in environment files."
+            exit 0
           fi
         shell: bash
+
+      - name: Output environment file
+        run: echo "Changed environment: ${{ env.ENV }}"
 
       - name: Deploy to Dev Environment
         if: env.ENV == 'dev'
@@ -53,3 +55,7 @@ jobs:
       - name: Deploy to Prod Environment
         if: env.ENV == 'prod'
         run: echo "Deploying to Prod" # replace with your deployment script/command
+
+      - name: No deployment required
+        if: env.ENV == 'ab'
+        run: echo "No deployment required; ab file not found."
