@@ -2,7 +2,7 @@ name: Manual Deploy Workflow
 on:
   push:
     branches:
-      - 'AR_github_workflow'
+      - 'master'
   workflow_dispatch:
     # inputs:
 
