@@ -17,5 +17,10 @@ jobs:
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
           echo "branch_name=ankit_${TIMESTAMP}" >> $GITHUB_ENV
 
-      - name: Print Branch Name
-        run: echo "Branch Name:${{ env.branch_name }}"
+      # - name: Print Branch Name
+      #   run: echo "Branch Name:${{ env.branch_name }}"
+
+      - name: Assign to Variable Q
+        run: |
+          q="${{ env.branch_name }}"
+          echo "Value of q: $q"
