@@ -6,10 +6,8 @@ on:
       - 'master'
 env:
   repository: "hello-world-1"
-  #tag: "${{ github.event.inputs.branch }}"
-  tag: "${{ github.ref }}"
   branch_name: "$BRANCH_NAME"
-  remote_branch_name: "${{ github.repository.branch_name }}"
+  #remote_branch_name: "${{ github.repository.branch_name }}"
 
 
 jobs:
@@ -27,13 +25,7 @@ jobs:
         run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Build Docker image
-        #run: docker build -t tedmiston/tag-example:${{ env.BRANCH_NAME }} .
         run: echo ${{ env.BRANCH_NAME }}
 
       - name: Print branch name
         run: echo "$BRANCH_NAME"
-
-      - name: Print remote branch name
-        run: |
-          REMOTE_BRANCH="${{ env.remote_branch_name }}"
-          echo "$REMOTE_BRANCH"
