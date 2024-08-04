@@ -34,10 +34,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
           BRANCH: ${{ env.organization }}/${{ env.repository }}
           BRANCH_NAME: ${{ env.remote_branch_name }}
-
+          TAG_NAME: ${{ env.tag }}
           build-args: ${{ steps.args.outputs.build_args }}
         run: |
           echo $BRANCH
           echo $BRANCH_NAME
+          echo $TAG_NAME
 
             
