@@ -12,7 +12,7 @@ env:
   repository: "xyz"
   tag: "sha-${{ github.sha }}"
   full_env_name: "${{ github.base_ref }}-pr-${{ github.event.commits }}"
-  remote_branch_name: "${{ github.repository }}/${{ github.base_ref }}"
+  remote_branch_name: "${{ github.repository }}/${{ github.base_ref }}/${{ github.event.ref }}"
   branch: "${{ github.event.ref }}"
  
 jobs:
