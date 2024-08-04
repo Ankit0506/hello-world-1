@@ -9,20 +9,6 @@ jobs:
     name: Print Input & Environment details
     runs-on: self-hosted
 
-    steps:
-      - name: Extract branch name
-        id: extract_branch
-        run: |
-          echo "$BRANCH_NAME"
-
-
-      # - name: Show Runtime Env Values
-      #   run: |
-      #     echo ""
-      #     echo "Running Staging Release workflow with the following Env Values:"
-      #     echo ""
-      #     echo "Deploying Branch: ${{ env.BRANCH_NAME }}"
-      #     echo "Deploying to Environment: ${{ github.event.inputs.environment }}"
 
   build:
     runs-on: ubuntu-latest
@@ -30,10 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Build
+    - name: Print Branch Name
       run: |
-        BRANCH_NAME="${{ env.BRANCH_NAME }}"
-        echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
+        # Extract branch name from GITHUB_REF
+        BRANCH_NAME=${GITHUB_REF#refs/heads/}
+        echo "Branch Name: $BRANCH_NAME"
     
   deploy:
     needs: build
