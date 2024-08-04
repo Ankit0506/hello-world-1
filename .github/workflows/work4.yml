@@ -13,9 +13,8 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Build
-      env:
-        BRANCH_NAME: ${{ env.BRANCH_NAME }}"
       run: |
+        BRANCH_NAME: ${{ env.BRANCH_NAME }}"
         echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
     
   deploy:
