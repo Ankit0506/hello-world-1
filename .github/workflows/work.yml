@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - 'master'
+env:
+  #tag: "${{ github.event.inputs.branch }}"
+  tag: "${{ github.ref }}"
+  remote_branch: "$BRANCH_NAME"
+
 
 jobs:
   build:
@@ -21,4 +26,7 @@ jobs:
 
       - name: Build Docker image
         #run: docker build -t tedmiston/tag-example:${{ env.BRANCH_NAME }} .
+        run: echo "$BRANCH_NAME"
+
+      - name: Build Docker image
         run: echo "$BRANCH_NAME"
