@@ -1,0 +1,30 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Build
+      env:
+        MY_VARIABLE: ${{ secrets.MY_SECRET }}
+      run: |
+        echo "MY_VARIABLE=$MY_VARIABLE" >> $GITHUB_OUTPUT
+    
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Deploy
+      env:
+        MY_VARIABLE: ${{ needs.build.outputs.MY_VARIABLE }}
+      run: |
+        echo "MY_VARIABLE=$MY_VARIABLE"
