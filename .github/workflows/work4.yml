@@ -14,7 +14,7 @@ jobs:
     
     - name: Build
       run: |
-        BRANCH_NAME: ${{ env.BRANCH_NAME }}"
+        BRANCH_NAME: "${{ env.BRANCH_NAME }}"
         echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
     
   deploy:
