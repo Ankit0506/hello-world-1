@@ -8,8 +8,6 @@ env:
   repository: ${{ github.repository }}
   branch_name: "$BRANCH_NAME"
   #remote_branch_name: "${{ github.repository.branch_name }}"
-  remote_branch_name: "${{ env.repository }}/${{ env.BRANCH_NAME }}"
-
 
 jobs:
   build:
