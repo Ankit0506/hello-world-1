@@ -1,34 +1,15 @@
-name: Build and Deploy pip
-
+name: Retrieve Branch Name
 on:
   push:
-    branches: [master]
+    branches:
+      - 'master'
 
 jobs:
-  runtimeInfo: 
-    name: Print Input & Environment details
-    runs-on: self-hosted
-
-
-  build:
+  retrieve-branch:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Print Branch Name
-      run: |
-        # Extract branch name from GITHUB_REF
-        BRANCH_NAME=${GITHUB_REF#refs/heads/}
-        echo "Branch Name: $BRANCH_NAME"
-    
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Deploy
-      env:
-        BRANCH_NAME: ${{ needs.build.outputs.BRANCH_NAME }}
-      run: |
-        echo "BRANCH_NAME=$BRANCH_NAME"
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Display Branch Name
+        run: echo "Current Branch: ${{ github.ref }}"
