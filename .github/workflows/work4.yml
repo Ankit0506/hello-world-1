@@ -22,14 +22,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set Branch Name
-        id: set_branch_name
-        run: |
-          TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          echo "branch_name=ankit_${TIMESTAMP}" >> $GITHUB_ENV
-          q="${{ env.branch_name }}"
-          echo "Value of q: $q"
-
       - name: Build 
         env:
           GITHUB_TOKEN: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
