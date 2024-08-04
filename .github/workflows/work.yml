@@ -5,9 +5,11 @@ on:
     branches:
       - 'master'
 env:
+  repository: "hello-world-1"
   #tag: "${{ github.event.inputs.branch }}"
   tag: "${{ github.ref }}"
-  remote_branch: "$BRANCH_NAME"
+  branch_name: "$BRANCH_NAME"
+  remote_branch_name: "${{ github.repository }}/${{ env.BRANCH_NAME }}"
 
 
 jobs:
@@ -30,3 +32,8 @@ jobs:
 
       - name: Print branch name
         run: echo "$BRANCH_NAME"
+
+      - name: Print remote branch name
+        run: |
+          REMOTE_BRANCH="${{ env.remote_branch_name }}"
+          echo "$REMOTE_BRANCH"
