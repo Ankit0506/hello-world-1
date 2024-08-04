@@ -14,9 +14,9 @@ jobs:
     
     - name: Build
       env:
-        MY_VARIABLE: ${{ secrets.MY_SECRET }}
+        BRANCH_NAME: ${{ env.BRANCH_NAME }}"
       run: |
-        echo "MY_VARIABLE=$MY_VARIABLE" >> $GITHUB_OUTPUT
+        echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
     
   deploy:
     needs: build
@@ -25,6 +25,6 @@ jobs:
     steps:
     - name: Deploy
       env:
-        MY_VARIABLE: ${{ needs.build.outputs.MY_VARIABLE }}
+        BRANCH_NAME: ${{ needs.build.outputs.BRANCH_NAME }}
       run: |
-        echo "MY_VARIABLE=$MY_VARIABLE"
+        echo "BRANCH_NAME=$BRANCH_NAME"
