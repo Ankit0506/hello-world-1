@@ -36,3 +36,4 @@ jobs:
           echo "remote_branch_name=${{ env.repository }}/${{ env.BRANCH_NAME }}"
           echo "Repository Name: ${{ env.repository }}"
           echo "${{ env.BRANCH_NAME }}"
+          echo ${{ env.remote_branch_name }}
