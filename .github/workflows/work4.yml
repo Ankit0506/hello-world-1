@@ -11,5 +11,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Display Branch Name
-        run: echo "Current Branch: ${{ github.ref }}"
+      - name: Set Branch Name
+        id: set_branch_name
+        run: |
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          echo "branch_name=ankit_${TIMESTAMP}" >> $GITHUB_ENV
+
+      - name: Print Branch Name
+        run: echo "Branch Name:${{ env.branch_name }}"
