@@ -20,4 +20,5 @@ jobs:
         run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Build Docker image
-        run: docker build -t tedmiston/tag-example:${{ env.BRANCH_NAME }} .
+        #run: docker build -t tedmiston/tag-example:${{ env.BRANCH_NAME }} .
+        run: echo "$BRANCH_NAME"
