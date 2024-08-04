@@ -33,3 +33,7 @@ jobs:
       - name: Print repository name
         run: |
           echo "Repository Name: ${{ env.repository }}"
+
+      - name: Print repository name and branch
+        run: |
+          echo "Repository Name: ${{ env.repository }}/${{ env.BRANCH_NAME }}"
