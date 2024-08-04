@@ -13,7 +13,6 @@ jobs:
       - name: Extract branch name
         id: extract_branch
         run: |
-          echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
           echo "$BRANCH_NAME"
 
 
