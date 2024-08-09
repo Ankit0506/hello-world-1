@@ -5,6 +5,7 @@ on: [push]
 jobs:
   update_config:
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
       - name: Check out code
