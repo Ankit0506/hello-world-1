@@ -1,11 +1,11 @@
-name: Retrieve Branch Name
-on:
-  push:
-    branches:
-      - 'master'
-permissions:
-  id-token: write
-  contents: write
+# name: Retrieve Branch Name
+# on:
+#   push:
+#     branches:
+#       - 'master'
+# permissions:
+#   id-token: write
+#   contents: write
 
 env:
   organization: "abc"
