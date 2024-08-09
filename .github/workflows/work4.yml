@@ -39,9 +39,9 @@ jobs:
 
       - name: Parse JSON
         env:
-          MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}
+          MY_JSON_DATA: ${{ vars.VARIABLETEST }}
         run: |
-          echo "Original JSON: $MY_JSON_DATA"
+          echo "Original JSON: $VARIABLETEST"
           # Parse JSON with jq
           VALUE=$(echo "$VARIABLETEST" | jq -r '.key_name')
           echo "Parsed Value: $VALUE"    
