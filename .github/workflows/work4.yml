@@ -22,18 +22,26 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Build 
-        env:
-          GITHUB_TOKEN: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
-          BRANCH: ${{ env.organization }}/${{ env.repository }}
-          BRANCH_NAME: ${{ env.remote_branch_name }}
-          TAG_NAME: ${{ env.tag }}
-          build-args: ${{ steps.args.outputs.build_args }}
-          TAG: ${{ env.branch }}
-        run: |
-          echo $BRANCH
-          echo $BRANCH_NAME
-          echo $TAG_NAME
-          echo $TAG
+      # - name: Build 
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
+      #     BRANCH: ${{ env.organization }}/${{ env.repository }}
+      #     BRANCH_NAME: ${{ env.remote_branch_name }}
+      #     TAG_NAME: ${{ env.tag }}
+      #     build-args: ${{ steps.args.outputs.build_args }}
+      #     TAG: ${{ env.branch }}
+      #   run: |
+      #     echo $BRANCH
+      #     echo $BRANCH_NAME
+      #     echo $TAG_NAME
+      #     echo $TAG
 
-            
+
+      - name: Parse JSON
+        env:
+          MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}
+        run: |
+          echo "Original JSON: $MY_JSON_DATA"
+          # Parse JSON with jq
+          VALUE=$(echo "$VARIABLETEST" | jq -r '.key_name')
+          echo "Parsed Value: $VALUE"    
