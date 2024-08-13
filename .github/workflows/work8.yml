@@ -12,7 +12,6 @@ env:
   remote_branch_name: "${{ github.actor }}-${{ github.run_id }}"
 
 jobs:
-  match_branch:
     runs-on: ubuntu-latest
     environment: dev  # Specify the environment where the variable is stored
 
