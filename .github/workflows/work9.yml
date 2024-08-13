@@ -1,0 +1,57 @@
+name: Build and Deploy
+
+on: [push]
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  build:
+    name: Build Stage
+    runs-on: ubuntu-latest
+    environment: dev  # Specify the environment where the MY_JSON_DATA variable is stored
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Print Master Details
+        env:
+          MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}  # Access the JSON stored in the environment variable
+        run: |
+          # Install jq for parsing JSON
+          sudo apt-get update && sudo apt-get install -y jq
+
+          # Extract details for the master branch
+          environment_file_path=$(echo "$MY_JSON_DATA" | jq -r '.master.environment_file_path')
+          full_env_name=$(echo "$MY_JSON_DATA" | jq -r '.master.full_env_name')
+
+          # Print the details
+          echo "Master Environment File Path: $environment_file_path"
+          echo "Master Full Environment Name: $full_env_name"
+
+  deploy:
+    name: Deploy Stage
+    needs: build  # The deploy stage depends on the build stage
+    runs-on: ubuntu-latest
+    environment: dev  # Specify the environment where the MY_JSON_DATA variable is stored
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Print Miami Details
+        env:
+          MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}  # Access the JSON stored in the environment variable
+        run: |
+          # Install jq for parsing JSON
+          sudo apt-get update && sudo apt-get install -y jq
+
+          # Extract details for the miami branch
+          environment_file_path=$(echo "$MY_JSON_DATA" | jq -r '.miami.environment_file_path')
+          full_env_name=$(echo "$MY_JSON_DATA" | jq -r '.miami.full_env_name')
+
+          # Print the details
+          echo "Miami Environment File Path: $environment_file_path"
+          echo "Miami Full Environment Name: $full_env_name"
