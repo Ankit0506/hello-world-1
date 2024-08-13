@@ -2,14 +2,30 @@ name: Compare Branch Name with JSON
 
 on: [push]
 
+permissions:
+  id-token: write
+  contents: write
+
+env:
+  organization: "Ankit0506"
+  repository: "hello-world1"
+  remote_branch_name: "${{ github.actor }}-${{ github.run_id }}"
+  #branch_name: "${{ github.ref_name }}"
+  
 jobs:
   match_branch:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     environment: dev  # Specify the environment where the variable is stored
-
+    
+  build:
+    name: Build Docker Images
+    runs-on: self-hosted
+    
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ env.branch_name }}
 
       - name: Print Branch Name
         env:
@@ -25,6 +41,55 @@ jobs:
           # Loop through the branch names and check for a match
           match_found=false
           for name in $branch_name; do
+            if [ "$name" == "${BRANCH_NAME##*/}" ]; then  # Remove refs/heads/ prefix if present
+              echo "Branch name matches: $name"
+              match_found=true
+            fi
+          done
+
+          if [ "$match_found" == "false" ]; then
+            echo "Branch name does not match any known environment."
+            exit 1
+          fi
+  deploy:
+    name: Deploy target environment
+    needs:
+      - build
+    runs-on: self-hosted
+    steps:
+      - name: Checkout githubactions
+        uses: actions/checkout@v4
+        with:
+          ref: "main"
+          repository: "Ankit0506/githubactions"
+          
+      - name: Set Tag Environment Variable
+        run: echo "tag=${GITHUB_REF_NAME}-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
+      - name: Configure git Remote
+        env:
+          BRANCH_NAME: ${{ env.remote_branch_name }}
+        run: |
+          echo $BRANCH_NAME=${{ env.remote_branch_name }}
+          echo "[$(date +%Y-%m-%dT%H:%M:%S%z)] configuring git..."
+          git config user.email "ankit.rai.0506@gmail.com"
+          git config user.name "GitHub Actions"
+          BRANCH_EXISTS=$(git ls-remote --heads origin $BRANCH_NAME)
+          if [[ -z ${BRANCH_EXISTS} ]]; then
+            echo "[$(date +%Y-%m-%dT%H:%M:%S%z)] branch does not exist"
+            git checkout -b $BRANCH_NAME
+          else
+            echo "[$(date +%Y-%m-%dT%H:%M:%S%z)] branch already exists"
+            git fetch
+            git switch $BRANCH_NAME
+          fi
+      - name: Update master Environment Configurations
+        run: |
+          env-name=$(echo "$MY_JSON_DATA" | jq -r 'keys[]')
+          
+          # Loop through the branch names and check for a match
+          match_found=false
+          for name in $env-name; do
             if [ "$name" == "${BRANCH_NAME##*/}" ]; then  # Remove refs/heads/ prefix if present
               echo "Branch name matches: $name"
               match_found=true
