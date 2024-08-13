@@ -6,11 +6,17 @@ permissions:
   id-token: write
   contents: write
 
+env:
+  organization: "Ankit0506"
+  repository: "hello-world-1"
+  remote_branch_name: "${{ github.actor }}-${{ github.run_id }}"
+  branch_name: "${{ github.ref_name }}"
+
 jobs:
   build:
     name: Build Stage
     runs-on: ubuntu-latest
-    environment: dev  # Specify the environment where the MY_JSON_DATA variable is stored
+    environment: staging  # Specify the environment where the MY_JSON_DATA variable is stored
 
     steps:
       - name: Check out code
@@ -41,17 +47,30 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Configure git Remote
+        env:
+          BRANCH_NAME: ${{ env.remote_branch_name }}
+        run: |
+          echo $BRANCH_NAME=${{ env.remote_branch_name }}
+          
       - name: Print Miami Details
         env:
-          MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}  # Access the JSON stored in the environment variable
+            MY_JSON_DATA: ${{ vars.MY_JSON_DATA }} 
         run: |
-          # Install jq for parsing JSON
-          sudo apt-get update && sudo apt-get install -y jq
-
-          # Extract details for the miami branch
-          environment_file_path=$(echo "$MY_JSON_DATA" | jq -r '.miami.environment_file_path')
-          full_env_name=$(echo "$MY_JSON_DATA" | jq -r '.miami.full_env_name')
-
-          # Print the details
-          echo "Miami Environment File Path: $environment_file_path"
-          echo "Miami Full Environment Name: $full_env_name"
+            sudo apt-get update && sudo apt-get install -y jq
+            
+            env_names=$(echo "$MY_JSON_DATA" | jq -r 'keys[]')
+            # Loop through the branch names and check for a match
+            match_found=false
+            for name in $env_names; do
+            if [ "$name" == "${BRANCH_NAME##*/}" ]; then  # Remove refs/heads/ prefix if present
+              echo "Branch name matches: $name"
+              match_found=true
+              echo "environment_file_path=$environment_file_path" >> $GITHUB_ENV
+              echo "full_env_name=$full_env_name" >> $GITHUB_ENV
+            fi
+            done
+  
+            if [ "$match_found" == "false" ]; then
+              echo "Branch name does not match any known environment."
+              exit 1
