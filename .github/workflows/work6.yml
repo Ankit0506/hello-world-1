@@ -17,7 +17,6 @@ jobs:
         env:
           MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}  # Access the JSON stored in the environment
           BRANCH_NAME: ${{ github.ref_name }}     # Access the current branch name
-        if: ${{ env.environment == env.BRANCH_NAME}}
         run: |
           echo "print dev message........................."
           # Install jq for parsing JSON
