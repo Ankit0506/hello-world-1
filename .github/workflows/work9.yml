@@ -58,7 +58,6 @@ jobs:
             MY_JSON_DATA: ${{ vars.MY_JSON_DATA }} 
         run: |
             sudo apt-get update && sudo apt-get install -y jq
-            
             env_names=$(echo "$MY_JSON_DATA" | jq -r 'keys[]')
             # Loop through the branch names and check for a match
             match_found=false
