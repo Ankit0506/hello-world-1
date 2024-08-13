@@ -1,6 +1,5 @@
 name: Update Environment Configurations
 on: [push]
-
 jobs:
   update_config:
     runs-on: ubuntu-latest
