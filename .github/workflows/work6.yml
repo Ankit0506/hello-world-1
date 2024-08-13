@@ -1,48 +1,48 @@
-name: Update Environment Configurations
-on: [push]
-jobs:
-  update_config:
-    runs-on: ubuntu-latest
-    environment: dev
+# name: Update Environment Configurations
+# on: [push]
+# jobs:
+#   update_config:
+#     runs-on: ubuntu-latest
+#     environment: dev
 
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Check out code
+#         uses: actions/checkout@v3
 
-      - name: Print Commit Hash
-        #run: echo "The commit hash is ${{ github.sha }}"
-        run: echo "print short id ${GITHUB_SHA::6}"
+#       - name: Print Commit Hash
+#         #run: echo "The commit hash is ${{ github.sha }}"
+#         run: echo "print short id ${GITHUB_SHA::6}"
 
-      - name: Parse JSON and Set Environment Variables
-        env:
-          MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}  # Access the JSON stored in the environment
-          BRANCH_NAME: ${{ github.ref_name }}     # Access the current branch name
-        if: ${{ github.ref_name }} == 'master'
-        run: |
-          echo "print dev message........................."
-          echo "Environment file path: $environment_file_path"
-          echo "Full environment name: $full_env_name"
-          # Install jq for parsing JSON
-          sudo apt-get update && sudo apt-get install -y jq
-          # Extract the corresponding environment data for the branch
-          environment_file_path=$(echo "$MY_JSON_DATA" | jq -r --arg branch "$BRANCH_NAME" '.[$branch].environment_file_path')
-          full_env_name=$(echo "$MY_JSON_DATA" | jq -r --arg branch "$BRANCH_NAME" '.[$branch].full_env_name')
+#       - name: Parse JSON and Set Environment Variables
+#         env:
+#           MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}  # Access the JSON stored in the environment
+#           BRANCH_NAME: ${{ github.ref_name }}     # Access the current branch name
+#         if: ${{ github.ref_name }} == 'master'
+#         run: |
+#           echo "print dev message........................."
+#           echo "Environment file path: $environment_file_path"
+#           echo "Full environment name: $full_env_name"
+#           # Install jq for parsing JSON
+#           sudo apt-get update && sudo apt-get install -y jq
+#           # Extract the corresponding environment data for the branch
+#           environment_file_path=$(echo "$MY_JSON_DATA" | jq -r --arg branch "$BRANCH_NAME" '.[$branch].environment_file_path')
+#           full_env_name=$(echo "$MY_JSON_DATA" | jq -r --arg branch "$BRANCH_NAME" '.[$branch].full_env_name')
           
-          # Check if values were found and set them as environment variables
-          if [ -n "$environment_file_path" ] && [ -n "$full_env_name" ]; then
-            echo "environment_file_path=$environment_file_path" >> $GITHUB_ENV
-            echo "full_env_name=$full_env_name" >> $GITHUB_ENV
-          else
-            echo "No configuration found for branch $BRANCH_NAME"
-            exit 1
-          fi
+#           # Check if values were found and set them as environment variables
+#           if [ -n "$environment_file_path" ] && [ -n "$full_env_name" ]; then
+#             echo "environment_file_path=$environment_file_path" >> $GITHUB_ENV
+#             echo "full_env_name=$full_env_name" >> $GITHUB_ENV
+#           else
+#             echo "No configuration found for branch $BRANCH_NAME"
+#             exit 1
+#           fi
 
-      - name: Update Environment Configurations
-        run: |
-          echo "Updating environment configurations..."
-          # Further steps to update configurations using the environment variables
-          echo "Environment file path: $environment_file_path"
-          echo "Full environment name: $full_env_name"
-          # Example of how these variables could be used:
-          # cp $environment_file_path /path/to/destination
-          # echo $full_env_name >> /path/to/config
+#       - name: Update Environment Configurations
+#         run: |
+#           echo "Updating environment configurations..."
+#           # Further steps to update configurations using the environment variables
+#           echo "Environment file path: $environment_file_path"
+#           echo "Full environment name: $full_env_name"
+#           # Example of how these variables could be used:
+#           # cp $environment_file_path /path/to/destination
+#           # echo $full_env_name >> /path/to/config
