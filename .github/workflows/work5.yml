@@ -1,26 +1,26 @@
-name: Parse JSON from Environment Variable
+# name: Parse JSON from Environment Variable
 
-on: [push]
+# on: [push]
 
-jobs:
-  parse_json:
-    runs-on: ubuntu-latest
-    environment: dev  # Reference the environment where the variable is stored
+# jobs:
+#   parse_json:
+#     runs-on: ubuntu-latest
+#     environment: dev  # Reference the environment where the variable is stored
 
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Check out code
+#         uses: actions/checkout@v3
 
-      - name: Print All Environment Variables
-        run: printenv
+#       - name: Print All Environment Variables
+#         run: printenv
 
-      - name: Parse JSON
-        env:
-          MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}  # Access the environment variable
-        run: |
-          echo "Original JSON: $MY_JSON_DATA"
-          # Ensure jq is installed
-          sudo apt-get update && sudo apt-get install -y jq
-          # Parse JSON with jq
-          VALUE=$(echo "$MY_JSON_DATA" | jq -r '.key_name')
-          echo "Parsed Value: $VALUE"
+#       - name: Parse JSON
+#         env:
+#           MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}  # Access the environment variable
+#         run: |
+#           echo "Original JSON: $MY_JSON_DATA"
+#           # Ensure jq is installed
+#           sudo apt-get update && sudo apt-get install -y jq
+#           # Parse JSON with jq
+#           VALUE=$(echo "$MY_JSON_DATA" | jq -r '.key_name')
+#           echo "Parsed Value: $VALUE"
