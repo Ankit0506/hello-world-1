@@ -11,6 +11,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Print Commit Hash
+        run: echo "The commit hash is ${{ github.sha }}"
+
       - name: Parse JSON and Set Environment Variables
         env:
           MY_JSON_DATA: ${{ vars.MY_JSON_DATA }}  # Access the JSON stored in the environment
