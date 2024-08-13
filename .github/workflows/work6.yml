@@ -12,7 +12,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Print Commit Hash
-        run: echo "The commit hash is ${{ github.sha }}"
+        #run: echo "The commit hash is ${{ github.sha }}"
+        run: echo "print short id ${GITHUB_SHA::6}"
 
       - name: Parse JSON and Set Environment Variables
         env:
