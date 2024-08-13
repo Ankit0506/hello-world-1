@@ -1,7 +1,6 @@
 name: Compare Branch Name with JSON
 
 on: [push]
-
 permissions:
   id-token: write
   contents: write
