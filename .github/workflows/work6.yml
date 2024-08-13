@@ -1,5 +1,4 @@
 name: Update Environment Configurations
-
 on: [push]
 
 jobs:
