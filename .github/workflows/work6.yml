@@ -21,7 +21,7 @@ jobs:
           echo "print dev message........................."
           # Install jq for parsing JSON
           sudo apt-get update && sudo apt-get install -y jq
-          if: ${{ ${{ github.ref_name }} == 'master'}}
+          if: ${{ github.ref_name }} == 'master'
           # Extract the corresponding environment data for the branch
           environment_file_path=$(echo "$MY_JSON_DATA" | jq -r --arg branch "$BRANCH_NAME" '.[$branch].environment_file_path')
           full_env_name=$(echo "$MY_JSON_DATA" | jq -r --arg branch "$BRANCH_NAME" '.[$branch].full_env_name')
