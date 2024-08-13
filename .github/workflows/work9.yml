@@ -41,7 +41,7 @@ jobs:
     name: Deploy Stage
     needs: build  # The deploy stage depends on the build stage
     runs-on: ubuntu-latest
-    environment: dev  # Specify the environment where the MY_JSON_DATA variable is stored
+    environment: staging  # Specify the environment where the MY_JSON_DATA variable is stored
 
     steps:
       - name: Check out code
