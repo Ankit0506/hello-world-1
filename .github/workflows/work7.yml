@@ -1,0 +1,37 @@
+name: Compare Branch Name with JSON
+
+on: [push]
+
+jobs:
+  match_branch:
+    runs-on: ubuntu-latest
+    environment: dev  # Specify the environment where the variable is stored
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Print Branch Name
+        env:
+          MY_JSON_DATA: ${{ secrets.MY_JSON_DATA }}  # Access the JSON stored in GitHub environment variables
+          BRANCH_NAME: ${{ github.ref_name }}         # Access the current branch name
+        run: |
+          # Install jq for parsing JSON
+          sudo apt-get update && sudo apt-get install -y jq
+
+          # Extract environment names from JSON
+          branch_name=$(echo "$MY_JSON_DATA" | jq -r 'keys[]')
+
+          # Loop through the branch names and check for a match
+          match_found=false
+          for name in $branch_name; do
+            if [ "$name" == "${BRANCH_NAME##*/}" ]; then  # Remove refs/heads/ prefix if present
+              echo "Branch name matches: $name"
+              match_found=true
+            fi
+          done
+
+          if [ "$match_found" == "false" ]; then
+            echo "Branch name does not match any known environment."
+            exit 1
+          fi
