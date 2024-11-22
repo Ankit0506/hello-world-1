@@ -16,10 +16,15 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            await github.repos.createDispatchEvent({
-              owner: 'Ankit0506',
-              repo: 'repo-b',
-              event_type: 'run-hel-script'
-            });
+            try {
+              await github.rest.repos.createDispatchEvent({
+                owner: 'Ankit0506',
+                repo: 'repo-b',
+                event_type: 'run-hel-script'
+              });
+            } catch (error) {
+              console.error('Error triggering Repo B:', error);
+              throw error; // Fail the job on error
+            }
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_B_TOKEN }}
