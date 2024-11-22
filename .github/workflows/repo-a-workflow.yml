@@ -17,7 +17,7 @@ jobs:
         with:
           script: |
             await github.repos.createDispatchEvent({
-              owner: 'your-username',
+              owner: 'Ankit0506',
               repo: 'repo-b',
               event_type: 'run-hel-script'
             });
