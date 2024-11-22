@@ -1,0 +1,25 @@
+name: Trigger Repo B on Master Commit
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  trigger-repo-b:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo A
+        uses: actions/checkout@v2
+
+      - name: Trigger Repo B's Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.repos.createDispatchEvent({
+              owner: 'your-username',
+              repo: 'repo-b',
+              event_type: 'run-hel-script'
+            });
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_B_TOKEN }}
