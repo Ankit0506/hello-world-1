@@ -27,4 +27,4 @@ jobs:
               throw error; // Fail the job on error
             }
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_B_TOKEN }}
+          GH_TOKEN: ${{ secrets.REPO_B_TOKEN }}
