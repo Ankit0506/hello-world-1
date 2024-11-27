@@ -8,6 +8,10 @@ on:
 jobs:
   trigger-repo-b:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     steps:
       - name: Checkout Repo A
         uses: actions/checkout@v3
