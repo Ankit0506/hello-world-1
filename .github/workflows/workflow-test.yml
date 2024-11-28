@@ -24,8 +24,8 @@ jobs:
       - name: Trigger Another Repository Workflow
         run: |
           # Set the required variables
-          repo_owner="REPOSITORY_OWNER"  # Replace with actual repository owner
-          repo_name="REPOSITORY_NAME"      # Replace with actual repository name
+          repo_owner="Ankit0506"  # Replace with actual repository owner
+          repo_name="repo-b"      # Replace with actual repository name
           event_type="trigger-workflow"
           
           curl -L \
