@@ -2,6 +2,9 @@
 name: Trigger Repo B GitHub workflow
 
 on:
+  push:
+    branches:
+      - master
   workflow_run:
     workflows: [repob-workflow]  # Name of GitHub workflow to trigger in target repository
     types:
