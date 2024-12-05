@@ -17,8 +17,8 @@ jobs:
           github-token: ${{ secrets.REPO_B_TOKEN }}  # Fine-grained GitHub PAT that was saved as repository secret
           script: |
             await github.rest.actions.createWorkflowDispatch({
-              owner: 'guidemetothemoon',
-              repo: 'repoB',
+              owner: 'Ankit0506',
+              repo: 'repo-b',
               workflow_id: 'repob-workflow.yml',
               ref: 'main'
             });
