@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Trigger Another Repository Workflow
+      - name: Trigger Another Repository Workflows
         run: |
           # Set the required variables
           repo_owner="Ankit0506"  # Replace with actual repository owner
