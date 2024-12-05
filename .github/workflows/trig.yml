@@ -3,8 +3,7 @@ name: Trigger syc_qa_auto workflow when there is a push to ankit branch
 on:
   push:
     branches:
-      - master  # This will trigger the workflow on pushes to the branch
-
+      - master 
 jobs:
   trigger:
     runs-on: ubuntu-latest
