@@ -1,0 +1,28 @@
+name: workflow_01
+
+on:
+  workflow_dispatch:
+    inputs:
+      workflow_2:
+        description: 'Workflow 2 which will be triggered'
+        required: true
+        default: 'workflow_02'
+      workflow2_github_account:
+        description: 'GitHub Account Owner'
+        required: true
+        default: 'Ankit0506'
+      workflow2_repo_github:
+        description: 'Repo Name'
+        required: true
+        default: 'repo-b'
+
+jobs:
+  trigger_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Workflow 2
+        run: |
+          curl -X POST https://api.github.com/repos/${{ github.event.inputs.workflow2_github_account }}/${{ github.event.inputs.workflow2_repo_github }}/actions/workflows/${{ github.event.inputs.workflow_2 }}.yml/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -H 'Authorization: Bearer ${{ secrets.REPO_B_TOKEN }}' \
+          --data '{"ref": "main"}'  # Specify the branch for the target repo
