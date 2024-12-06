@@ -1,4 +1,4 @@
 # maven-projects
 
-Simple Maven Projectsd
+Simple Maven Projects
 f
